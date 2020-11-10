@@ -1,9 +1,11 @@
 package com.uigitdev.android.kotlin.kotlinsimplerecyclerview
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.uigitdev.android.kotlin.kotlinsimplerecyclerview.list.ItemClickListener
 import com.uigitdev.android.kotlin.kotlinsimplerecyclerview.list.ItemObject
 import com.uigitdev.android.kotlin.kotlinsimplerecyclerview.list.ListAdapter
 
@@ -17,8 +19,16 @@ class MainActivity : AppCompatActivity() {
     private fun setAdapter() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-        val adapter = ListAdapter(this@MainActivity, initList())
+        val adapter = ListAdapter(initList(), object : ItemClickListener {
+            override fun onItemClick(position: Int) {
+                showToast(position)
+            }
+        })
         recyclerView.adapter = adapter
+    }
+
+    private fun showToast(position : Int){
+        Toast.makeText(this@MainActivity, "Item position: $position", Toast.LENGTH_SHORT).show()
     }
 
     private fun initList(): ArrayList<ItemObject> {
